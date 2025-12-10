@@ -1,5 +1,7 @@
 def call() {
-    stage('Cleanup') {
-        sh 'docker image prune -f'
+    node {
+        stage('Cleanup') {
+            sh 'docker image prune -f'
+        }
     }
 }
