@@ -1,7 +1,4 @@
-def call() {
-    node {
-        stage('Cleanup') {
-            sh 'docker image prune -f'
-        }
-    }
+def call(imageName, imageTag) {
+    echo "Building Docker image..."
+    sh "docker build -t ${imageName}:${imageTag} ."
 }
