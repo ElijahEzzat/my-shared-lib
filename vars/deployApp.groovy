@@ -1,9 +1,11 @@
-def call() {
-    node {
-        stage('Deploy') {
-            sh 'docker stop my-java-app || true'
-            sh 'docker rm my-java-app || true'
-            sh 'docker run -d --name my-java-app -p 8080:8080 my-java-app:${BUILD_NUMBER}'
-        }
-    }
+def call(containerName, imageName, imageTag, port) {
+    echo "Stopping any existing container..."
+    sh "docker stop ${containerName} || true"
+    sh "docker rm ${containerName} || true"
+
+    echo "Cleaning Docker networks..."
+    sh "docker network prune -f || true"
+
+    echo "Running Docker container on port ${port}..."
+    sh "docker run -d --name ${containerName} -p ${port}:8080 ${imageName}:${imageTag}"
 }
